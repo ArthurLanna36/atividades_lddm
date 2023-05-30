@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tela_de_login/data_base_page.dart';
+
 import 'package:tela_de_login/home_page.dart';
 import 'package:tela_de_login/login_page.dart';
 import 'package:tela_de_login/about_page.dart';
@@ -33,6 +36,7 @@ class MainPageState extends State<MainPage> {
     const AboutPage(),
     const ListPage(name: ''),
     LoginPage(),
+    const DataBasePage()
   ];
 
   @override
@@ -68,6 +72,10 @@ class MainPageState extends State<MainPage> {
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Login',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.memory),
+          label: 'Data',
         ),
       ],
     ),

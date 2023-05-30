@@ -15,45 +15,44 @@ class ListPageState extends State<ListPage>{
   Widget build(BuildContext context) {
     loadItems();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          children: [
-            Text('Welcome back, '),
-            ListView.builder(
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Alert'),
-                          content: Text('${items[index]['subtitle']} was clicked'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text('Stay')
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Quit')
-                            )
-                          ],
-                        );
-                      }
-                    );
-                  },
-                  title: Text(items[index]['title']),
-                  subtitle: Text(items[index]['subtitle']),
-                );
-              }
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: const Text('Welcome back, ')
+      ),
+      body: Column(
+        children: [
+          ListView.builder(
+            itemCount: 20,
+            itemBuilder: (context, index) {
+              return ListTile(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Alert'),
+                        content: Text('${items[index]['subtitle']} was clicked'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text('Stay')
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Quit')
+                          )
+                        ],
+                      );
+                    }
+                  );
+                },
+                title: Text(items[index]['title']),
+                subtitle: Text(items[index]['subtitle']),
+              );
+            }
+          ),
+        ],
       )
     );
   }
