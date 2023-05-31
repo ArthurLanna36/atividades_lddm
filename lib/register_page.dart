@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tela_de_login/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -48,6 +49,7 @@ class RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
         title: Text('Create an Account', style: TextStyle(fontSize: myFontSize, fontWeight: FontWeight.bold)),
         leading: IconButton(
           onPressed: () {  },
@@ -184,8 +186,10 @@ class RegisterPageState extends State<RegisterPage> {
             ElevatedButton(
               onPressed: () {
                 _saveData();
+                Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepOrange,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   )

@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tela_de_login/register_page.dart';
 import 'package:tela_de_login/list_page.dart';
 
+import 'main.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
@@ -42,10 +44,14 @@ class LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        title: Text('Login'),
+        backgroundColor: Colors.deepOrange,
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.cover,
             image: AssetImage('assets/background_image.jpeg'),
           )
         ),
@@ -66,12 +72,6 @@ class LoginPageState extends State<LoginPage> {
                         fillColor: Colors.white,
                         filled: true
                       ),
-                      onSubmitted: (String submitted){
-                        if(submitted == 'eu@gmail.com')
-                        {
-                          correctEmail = true;
-                        }
-                      }
                     ),
                     const SizedBox(height: 12.0),
                     TextField(
@@ -94,11 +94,6 @@ class LoginPageState extends State<LoginPage> {
                           )
                         ),
                       ),
-                      onSubmitted: (String submitted) {
-                        if(submitted == _getData()) {
-                          correctPassword = true;
-                        }
-                      }
                     ),
                   ],
                 ),
@@ -120,10 +115,13 @@ class LoginPageState extends State<LoginPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrange
+                    ),
                     onPressed: () async {
                       if(await _getData()) {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => ListPage(name: name))
+                          MaterialPageRoute(builder: (context) => const MainPage())
                         );
                       }
                       else {
@@ -163,7 +161,7 @@ class LoginPageState extends State<LoginPage> {
                           children: <TextSpan> [
                             const TextSpan(text: 'New here?\n', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                             TextSpan(
-                              text: 'Clickable\n',
+                              text: 'Register\n',
                               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                               recognizer: TapGestureRecognizer()..onTap = () {
                                 Navigator.of(context).push(
@@ -179,8 +177,7 @@ class LoginPageState extends State<LoginPage> {
                 )
               ],
             ),
-            ]
-          ),
+          ]),
         ),
       ),
     );

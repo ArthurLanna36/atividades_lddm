@@ -15,7 +15,7 @@ void main() {
       theme: ThemeData(
         primaryColor: Colors.deepOrange
       ),
-      home: const MainPage()
+      home: LoginPage()
     )
   );
 }
@@ -34,8 +34,7 @@ class MainPageState extends State<MainPage> {
   final screens = [
     const HomePage(),
     const AboutPage(),
-    const ListPage(name: ''),
-    LoginPage(),
+    const ListPage(),
     const DataBasePage()
   ];
 
@@ -59,23 +58,19 @@ class MainPageState extends State<MainPage> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: 'Home'
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_balance),
-          label: 'About',
+          label: 'About'
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.list_alt),
-          label: 'List',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Login',
+          label: 'List'
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.memory),
-          label: 'Data',
+          label: 'Data'
         ),
       ],
     ),

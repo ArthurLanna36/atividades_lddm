@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ListPage extends StatefulWidget {
-  const ListPage({Key? key, required String name}) : super(key: key);
+  const ListPage({Key? key}) : super(key: key);
 
   @override
   ListPageState createState() => ListPageState();
@@ -15,44 +15,37 @@ class ListPageState extends State<ListPage>{
   Widget build(BuildContext context) {
     loadItems();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome back, ')
-      ),
-      body: Column(
-        children: [
-          ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return ListTile(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text('Alert'),
-                        content: Text('${items[index]['subtitle']} was clicked'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text('Stay')
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Quit')
-                          )
-                        ],
-                      );
-                    }
+      body: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return ListTile(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Alert'),
+                    content: Text('${items[index]['subtitle']} was clicked'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Stay')
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Quit')
+                      )
+                    ],
                   );
-                },
-                title: Text(items[index]['title']),
-                subtitle: Text(items[index]['subtitle']),
+                }
               );
-            }
-          ),
-        ],
+            },
+            title: Text(items[index]['title']),
+            subtitle: Text(items[index]['subtitle']),
+          );
+        }
       )
     );
   }

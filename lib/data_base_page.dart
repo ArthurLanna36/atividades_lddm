@@ -19,29 +19,39 @@ class DataBasePageState extends State<DataBasePage> {
   _getData() async {
     final dataBasePath = await getDatabasesPath();
     final localDataBase = join(dataBasePath, 'data_base.db');
-    var dataBaseInfo = await openDatabase(
+    Database dataBase = await openDatabase(
       localDataBase,
       version: 1,
-      onCreate: (dataBase, recentDataBase) {
+      onCreate: (dataBase, recentDataBase) async {
         String sql =
           'CREATE TABLE users ('
           'id INTEGER PRIMARY KEY AUTOINCREMENT, '
           'name VARCHAR, age INTEGER';
-        dataBase.execute(sql);
+        await dataBase.execute(sql);
       }
     );
+    if (kDebugMode) {
+      print('Opened ${dataBase.isOpen}');
+    }
+    return dataBase;
   }
 
   _saveData(String name, int age) async {
     Database dataBase = await _getData();
+    if (kDebugMode) {
+      print('Opened $dataBase');
+    }
     Map<String, dynamic> userData = {
       'name': name,
       'age': age
     };
     int id = await dataBase.insert('users', userData);
+    if (kDebugMode) {
+      print('Id saved: $id');
+    }
   }
 
-  _listUsers() async {
+  _listAllUsers() async {
     Database dataBase = await _getData();
     String sql = 'SELECT * FROM users';
     List users = await dataBase.rawQuery(sql);
@@ -67,11 +77,11 @@ class DataBasePageState extends State<DataBasePage> {
     }
   }
 
-  _updateUser(int id) async {
+  _updateUser(int id, String name, int age) async {
     Database dataBase = await _getData();
     Map<String, dynamic> userData = {
-      'name':'An',
-      'age':35
+      'name': name,
+      'age': age
     };
     int returned = await dataBase.update(
       'users', userData,
@@ -91,21 +101,13 @@ class DataBasePageState extends State<DataBasePage> {
       whereArgs: [id]
     );
     if (kDebugMode) {
-      print('Deleted items$returned');
+      print('Deleted items from $returned');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Data Base', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        leading: IconButton(
-          onPressed: () {  },
-          icon: const Icon(Icons.view_headline),
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -121,7 +123,7 @@ class DataBasePageState extends State<DataBasePage> {
                           title: const Text('Adding new user'),
                           content: Column(
                             children: [
-                              const Text('Write the name and the age of the new user'),
+                              const Text('Write the name and the age of the new user:'),
                               TextField(
                                 controller: _nameController,
                                 style: const TextStyle(fontSize: 18),
@@ -157,6 +159,7 @@ class DataBasePageState extends State<DataBasePage> {
                             TextButton(
                               onPressed: () {
                                 _saveData(_nameController.text, _ageController.text as int);
+                                print(_ageController.text);
                               },
                               child: const Text('Okay')
                             )
@@ -169,14 +172,13 @@ class DataBasePageState extends State<DataBasePage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    _listAllUsers();
                     showDialog(
                       context: context,
                       builder: (context) {
                         return AlertDialog(
                           title: const Text('Listing all users'),
-                          content: Column(
-
-                          ),
+                          content: Container(),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
@@ -186,7 +188,7 @@ class DataBasePageState extends State<DataBasePage> {
                             ),
                             TextButton(
                               onPressed: () {
-
+                                _listAllUsers();
                               },
                               child: const Text('Okay')
                             )
@@ -204,7 +206,22 @@ class DataBasePageState extends State<DataBasePage> {
                       builder: (context) {
                         return AlertDialog(
                           title: const Text('Listing specific user'),
-                          content: const Text('Write the name and age of the new user'),
+                          content: Column(
+                            children: [
+                              const Text('Write the id of the user that you want to see:'),
+                              TextField(
+                                controller: _idController,
+                                style: const TextStyle(fontSize: 18),
+                                keyboardType: TextInputType.name,
+                                decoration: const InputDecoration(
+                                  hintText: 'Id',
+                                  border: OutlineInputBorder(),
+                                  fillColor: Colors.white,
+                                  filled: true
+                                ),
+                              ),
+                            ],
+                          ),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
@@ -214,7 +231,6 @@ class DataBasePageState extends State<DataBasePage> {
                             ),
                             TextButton(
                               onPressed: () {
-
                               },
                               child: const Text('Okay')
                             )
@@ -232,7 +248,22 @@ class DataBasePageState extends State<DataBasePage> {
                       builder: (context) {
                         return AlertDialog(
                           title: const Text('Updating an user'),
-                          content: const Text('Write the name and age of the new user'),
+                          content: Column(
+                            children: [
+                              const Text('Write the id of the user that you want to update:'),
+                              TextField(
+                                controller: _idController,
+                                style: const TextStyle(fontSize: 18),
+                                keyboardType: TextInputType.name,
+                                decoration: const InputDecoration(
+                                  hintText: 'Id',
+                                  border: OutlineInputBorder(),
+                                  fillColor: Colors.white,
+                                  filled: true
+                                ),
+                              ),
+                            ],
+                          ),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
@@ -260,10 +291,20 @@ class DataBasePageState extends State<DataBasePage> {
                       builder: (context) {
                         return AlertDialog(
                           title: const Text('Deleting user'),
-                          content: const Column(
+                          content: Column(
                             children: [
-                              Text('Write the id of the user that you want to delete:'),
-
+                              const Text('Write the id of the user that you want to delete:'),
+                              TextField(
+                                controller: _idController,
+                                style: const TextStyle(fontSize: 18),
+                                keyboardType: TextInputType.name,
+                                decoration: const InputDecoration(
+                                  hintText: 'Id',
+                                  border: OutlineInputBorder(),
+                                  fillColor: Colors.white,
+                                  filled: true
+                                ),
+                              ),
                             ],
                           ),
                           actions: <Widget>[
