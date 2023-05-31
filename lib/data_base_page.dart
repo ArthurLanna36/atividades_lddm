@@ -22,11 +22,10 @@ class DataBasePageState extends State<DataBasePage> {
     Database dataBase = await openDatabase(
       localDataBase,
       version: 1,
-      onCreate: (dataBase, recentDataBase) async {
-        String sql =
-          'CREATE TABLE users ('
-          'id INTEGER PRIMARY KEY AUTOINCREMENT, '
-          'name VARCHAR, age INTEGER';
+      onCreate: (Database dataBase, int version) async {
+        String sql = "CREATE TABLE IF NOT EXISTS users ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "name VARCHAR, age INTEGER)";
         await dataBase.execute(sql);
       }
     );
@@ -39,7 +38,7 @@ class DataBasePageState extends State<DataBasePage> {
   _saveData(String name, int age) async {
     Database dataBase = await _getData();
     if (kDebugMode) {
-      print('Opened $dataBase');
+      print('Opened ${dataBase.toString()}');
     }
     Map<String, dynamic> userData = {
       'name': name,
@@ -53,7 +52,7 @@ class DataBasePageState extends State<DataBasePage> {
 
   _listAllUsers() async {
     Database dataBase = await _getData();
-    String sql = 'SELECT * FROM users';
+    String sql = "SELECT * FROM users";
     List users = await dataBase.rawQuery(sql);
     for(var user in users) {
       if (kDebugMode) {
@@ -65,7 +64,7 @@ class DataBasePageState extends State<DataBasePage> {
   _listUser(int id) async {
     Database dataBase = await _getData();
     List users = await dataBase.query(
-      'users',
+      "users",
       columns: ['id', 'name', 'age'],
       where: 'id = ?',
       whereArgs: [id]
@@ -101,7 +100,7 @@ class DataBasePageState extends State<DataBasePage> {
       whereArgs: [id]
     );
     if (kDebugMode) {
-      print('Deleted items from $returned');
+      print('Deleted items from ${returned.toString()}');
     }
   }
 
@@ -158,8 +157,7 @@ class DataBasePageState extends State<DataBasePage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                _saveData(_nameController.text, _ageController.text as int);
-                                print(_ageController.text);
+                                _saveData(_nameController.text, int.parse(_ageController.text));
                               },
                               child: const Text('Okay')
                             )
@@ -231,6 +229,7 @@ class DataBasePageState extends State<DataBasePage> {
                             ),
                             TextButton(
                               onPressed: () {
+                                _listUser(int.parse(_idController.text));
                               },
                               child: const Text('Okay')
                             )
@@ -273,7 +272,7 @@ class DataBasePageState extends State<DataBasePage> {
                             ),
                             TextButton(
                               onPressed: () {
-
+                                _updateUser(int.parse(_idController.text), _nameController.text, int.parse(_ageController.text));
                               },
                               child: const Text('Okay')
                             )
@@ -316,7 +315,7 @@ class DataBasePageState extends State<DataBasePage> {
                             ),
                             TextButton(
                               onPressed: () {
-
+                                _deleteUser(int.parse(_idController.text));
                               },
                               child: const Text('Okay')
                             )

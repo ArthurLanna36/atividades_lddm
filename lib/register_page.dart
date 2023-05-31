@@ -79,10 +79,10 @@ class RegisterPageState extends State<RegisterPage> {
               keyboardType: TextInputType.datetime,
               maxLength: 10,
               decoration: const InputDecoration(
-                  hintText: 'Date of Birth',
-                  border: OutlineInputBorder(),
-                  fillColor: Colors.white,
-                  filled: true
+                hintText: 'Date of Birth',
+                border: OutlineInputBorder(),
+                fillColor: Colors.white,
+                filled: true
               ),
             ),
             const SizedBox(height: 12.0),
@@ -91,10 +91,10 @@ class RegisterPageState extends State<RegisterPage> {
               style: TextStyle(fontSize: myFontSize),
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
-                  hintText: 'E-mail',
-                  border: OutlineInputBorder(),
-                  fillColor: Colors.white,
-                  filled: true
+                hintText: 'E-mail',
+                border: OutlineInputBorder(),
+                fillColor: Colors.white,
+                filled: true
               ),
             ),
             const SizedBox(height: 12.0),
@@ -103,10 +103,10 @@ class RegisterPageState extends State<RegisterPage> {
               style: TextStyle(fontSize: myFontSize),
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
-                  hintText: 'Phone Number',
-                  border: OutlineInputBorder(),
-                  fillColor: Colors.white,
-                  filled: true
+                hintText: 'Phone Number',
+                border: OutlineInputBorder(),
+                fillColor: Colors.white,
+                filled: true
               ),
             ),
             const SizedBox(height: 12.0),
@@ -116,20 +116,20 @@ class RegisterPageState extends State<RegisterPage> {
               obscureText: hidePassword,
               maxLength: 20,
               decoration: InputDecoration(
-                  hintText: 'Password',
-                  border: const OutlineInputBorder(),
-                  fillColor: Colors.white,
-                  filled: true,
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          hidePassword = !hidePassword;
-                        });
-                      },
-                      icon: Icon(
-                        hidePassword ? Icons.visibility_off : Icons.visibility,
-                      )
+                hintText: 'Password',
+                border: const OutlineInputBorder(),
+                fillColor: Colors.white,
+                filled: true,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      hidePassword = !hidePassword;
+                    });
+                  },
+                  icon: Icon(
+                    hidePassword ? Icons.visibility_off : Icons.visibility,
                   )
+                )
               ),
             ),
             Row(
